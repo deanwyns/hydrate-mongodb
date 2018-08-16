@@ -1,7 +1,8 @@
 import * as mongodb from "mongodb";
-import {Readable} from "stream";
+import { Cursor, EndCallback, IteratorCallback } from "mongodb";
+import { Readable } from "stream";
 
-export class MockCursor extends Readable implements mongodb.Cursor {
+export class MockCursor extends Readable implements Cursor {
 
     private _closed = false;
 
@@ -24,7 +25,7 @@ export class MockCursor extends Readable implements mongodb.Cursor {
         throw new Error("Method not implemented.");
     }
 
-    batchSize(value: number): mongodb.Cursor<any> {
+    batchSize(value: number): Cursor<any> {
         return this;
     }
 
@@ -61,7 +62,9 @@ export class MockCursor extends Readable implements mongodb.Cursor {
         return this;
     }
 
-    forEach(iterator: mongodb.IteratorCallback<any>, callback: mongodb.EndCallback): void {
+    forEach(iterator: IteratorCallback<any>, callback: EndCallback): void;
+    forEach(iterator: IteratorCallback<any>): Promise<void>;
+    forEach(...args: any[]): any {
         throw new Error("Method not implemented.");
     }
 

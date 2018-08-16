@@ -1,8 +1,9 @@
 import * as mongodb from "mongodb";
-import {MockCursor} from "./mockCursor";
-import {MockBulk} from "./mockBulk";
+import { AggregationCursor, BulkWriteOpResultObject, Collection, CollectionAggregationOptions, CollectionBulkWriteOptions, MongoCallback, MongoCountPreferences } from "mongodb";
+import { MockBulk } from "./mockBulk";
+import { MockCursor } from "./mockCursor";
 
-export class MockCollection implements mongodb.Collection {
+export class MockCollection<TSchema = any> implements Collection<TSchema> {
 
     collectionName: string;
     namespace: string;
@@ -16,15 +17,16 @@ export class MockCollection implements mongodb.Collection {
         this.collectionName = name;
     }
 
-    aggregate<T>(pipeline: Object[], callback: mongodb.MongoCallback<mongodb.AggregationCursor<T>>): mongodb.AggregationCursor<T>;
-    aggregate<T>(pipeline: Object[], options?: mongodb.CollectionAggregationOptions, callback?: mongodb.MongoCallback<mongodb.AggregationCursor<T>>): mongodb.AggregationCursor<T>;
+    aggregate<T = TSchema>(callback: MongoCallback<AggregationCursor<T>>): AggregationCursor<T>;
+    aggregate<T = TSchema>(pipeline: Object[], callback: MongoCallback<AggregationCursor<T>>): AggregationCursor<T>;
+    aggregate<T = TSchema>(pipeline?: Object[], options?: CollectionAggregationOptions, callback?: MongoCallback<AggregationCursor<T>>): AggregationCursor<T>;
     aggregate(pipeline: any, options?: any, callback?: any): any {
         throw new Error("Method not implemented.");
     }
 
-    bulkWrite(operations: Object[], callback: mongodb.MongoCallback<mongodb.BulkWriteOpResultObject>): void;
-    bulkWrite(operations: Object[], options?: mongodb.CollectionBluckWriteOptions): Promise<mongodb.BulkWriteOpResultObject>;
-    bulkWrite(operations: Object[], options: mongodb.CollectionBluckWriteOptions, callback: mongodb.MongoCallback<mongodb.BulkWriteOpResultObject>): void;
+    bulkWrite(operations: Object[], callback: MongoCallback<BulkWriteOpResultObject>): void;
+    bulkWrite(operations: Object[], options?: CollectionBulkWriteOptions): Promise<BulkWriteOpResultObject>;
+    bulkWrite(operations: Object[], options: CollectionBulkWriteOptions, callback: MongoCallback<BulkWriteOpResultObject>): void;
     bulkWrite(operations: any, options?: any, callback?: any): any {
         throw new Error("Method not implemented.");
     }
@@ -33,6 +35,15 @@ export class MockCollection implements mongodb.Collection {
     count(query: Object, options?: mongodb.MongoCountPreferences): Promise<number>;
     count(query: Object, options: mongodb.MongoCountPreferences, callback: mongodb.MongoCallback<number>): void;
     count(query: any, options?: any, callback?: any): any {
+        throw new Error("Method not implemented.");
+    }
+
+    
+    countDocuments(callback: MongoCallback<number>): void;
+    countDocuments(query: Object, callback: MongoCallback<number>): void;
+    countDocuments(query?: Object, options?: MongoCountPreferences): Promise<number>;
+    countDocuments(query: Object, options: MongoCountPreferences, callback: MongoCallback<number>): void;
+    countDocuments(...args: any[]): any {
         throw new Error("Method not implemented.");
     }
 
@@ -94,6 +105,14 @@ export class MockCollection implements mongodb.Collection {
     dropIndexes(callback?: mongodb.MongoCallback<any>): void;
     dropIndexes(options: { session?: any; maxTimeMS?: number; }, callback: mongodb.MongoCallback<any>): void;
     dropIndexes(options?: any, callback?: any): any {
+        throw new Error("Method not implemented.");
+    }
+
+    estimatedDocumentCount(callback: MongoCallback<number>): void;
+    estimatedDocumentCount(query: Object, callback: MongoCallback<number>): void;
+    estimatedDocumentCount(query?: Object, options?: MongoCountPreferences): Promise<number>;
+    estimatedDocumentCount(query: Object, options: MongoCountPreferences, callback: MongoCallback<number>): void;
+    estimatedDocumentCount(...args: any[]): any {
         throw new Error("Method not implemented.");
     }
 
